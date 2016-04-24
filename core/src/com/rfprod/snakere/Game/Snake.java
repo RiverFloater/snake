@@ -1,9 +1,8 @@
 package com.rfprod.snakere.Game;
 
-import com.badlogic.gdx.math.Vector2;
-
 import java.util.Iterator;
 import java.util.LinkedList;
+
 
 /**
  * Player.
@@ -22,257 +21,156 @@ public class Snake {
     public static final int SOUTH = 3;
     public static final int WEST = 4;
 
-    private LinkedList<Vector2> snakeBody;
+    public static final int DEFAULT_SPEED = 1;
+
+
+    private LinkedList<BodySegment> snake;
     private int lastDirection;
     private int currentDirection;
     private int speed;
 
-
-    public Snake(Vector2 startingPos) {
-        this.snakeBody = new LinkedList<Vector2>();
-        this.snakeBody.add(startingPos);
-        this.currentDirection = NOT_SET;
-        this.lastDirection = NOT_SET;
-        this.speed = 1;
+    private int lastX,lastY;
+    private int tempX,tempY;
 
 
 
-    }
 
 
-    public Vector2 getHead()
+
+
+    public Snake(int x, int y)
     {
-        return this.snakeBody.getFirst();
-    }
 
-    public void addBodySegment(int boundsX, int boundsY)
-    {
-        if(snakeBody.size() == 1) {
-            switch (currentDirection) {
-                case NORTH:
-                    snakeBody.add(new Vector2(snakeBody.getFirst().x, snakeBody.getFirst().y - 1));
-                    break;
-                case SOUTH:
-                    snakeBody.add(new Vector2(snakeBody.getFirst().x, snakeBody.getFirst().y +1 ));
-                    break;
-                case WEST:
-                    snakeBody.add(new Vector2(snakeBody.getFirst().x-1,snakeBody.getFirst().y));
-                    break;
-                case EAST:
-                    snakeBody.add(new Vector2(snakeBody.getFirst().x+1,snakeBody.getFirst().y));
-                    break;
-            }
-        }
-        else
-        {
-            Vector2 lastSegment = this.snakeBody.getLast();
-            Vector2 beforeLast = this.snakeBody.get(snakeBody.size());
-            int currentX, currentY;
-            int futureX, futureY;
-            int xDiff;
-            int yDiff;
+        snake = new LinkedList<BodySegment>();
 
-            //get future direction from link
-            futureX = (int)beforeLast.x;
-            futureY = (int) beforeLast.y;
-            currentX = (int) lastSegment.x;
-            currentY = (int) lastSegment.y;
-
-            xDiff = futureX - currentX;
-            yDiff = futureY - currentY;
-
-            if((currentX - xDiff != boundsX)||(currentY -yDiff != boundsY))
-            {
-                snakeBody.add(new Vector2(currentX - xDiff,currentY - yDiff));
-            }
-            else
-            {
-                if(currentX - xDiff == boundsX)
-                {
-                    snakeBody.add(new Vector2(currentX+xDiff,currentY));
-                }
-                else
-                    snakeBody.add(new Vector2(currentX, currentY + yDiff));
-            }
-
-        }
-
-
-
-
+        snake.add(new BodySegment(x,y));
+        lastDirection = NOT_SET;
+        currentDirection = NOT_SET;
+        speed = DEFAULT_SPEED;
 
 
 
     }
-
 
 
     public void changeDirectionNorth()
     {
-        if(this.currentDirection != NORTH)
+        if (this.currentDirection != NORTH)
         {
-            this.lastDirection = this.currentDirection;
-            this.currentDirection = NORTH;
-
-        }
-    }
-    public void changeDirectionSouth()
-    {
-        if(this.currentDirection != SOUTH)
-        {
-            this.lastDirection = this.currentDirection;
-            this.currentDirection = SOUTH;
+            lastDirection = currentDirection;
+            currentDirection = NORTH;
         }
     }
 
-    public void changeDirectionEAST()
-    {
-        if(this.currentDirection != EAST)
-        {
-            this.lastDirection = this.currentDirection;
-            this.currentDirection = EAST;
-        }
-    }
     public void changeDirectionWest()
     {
-        if(this.currentDirection != WEST) {
-            this.lastDirection = this.currentDirection;
-            this.currentDirection = WEST;
+        if (this.currentDirection != WEST)
+        {
+            lastDirection = currentDirection;
+            currentDirection = WEST;
         }
     }
 
-    public void changeSpeed(int speed)
+    public void changeDirectionEast()
     {
-        this.speed = speed;
+        if (this.currentDirection != EAST)
+        {
+            lastDirection = currentDirection;
+            currentDirection = EAST;
+        }
+    }
+
+    public void changeDirectionSouth()
+    {
+        if (this.currentDirection != SOUTH)
+        {
+            lastDirection = currentDirection;
+            currentDirection = SOUTH;
+        }
+    }
+
+    public BodySegment getHead()
+    {
+        return this.snake.getFirst();
+    }
+
+    public void addBodySegment(int x, int y)
+    {
+        snake.add(new BodySegment(x,y));
     }
 
 
-    /*will move the snake in the current direction (N,S,W,E)
-     *  if the snake has multiple segments, the segments will take the spot of the next segment and follow the same direction.
-     *
-     */
-    public void move( )
+    public void move()
     {
 
+        Iterator<BodySegment> it = this.snake.listIterator();
         boolean headMoved = false;
-        float oldX =0f;
-        float oldY=0f;
-        float newX=0f;
-        float newY=0f;
+        BodySegment currentSegment;
 
 
-        Iterator<Vector2> iterator = snakeBody.descendingIterator();
 
-        Vector2 currentSegment;
-
-
-        if(illegalMove())
-            currentDirection = lastDirection;
-
-        while (iterator.hasNext())
+        while(it.hasNext())
         {
-            currentSegment = iterator.next();
+            currentSegment = it.next();
+
+
             if(!headMoved)
             {
-                oldX = currentSegment.x;
-                oldY = currentSegment.y;
-
-                switch (currentDirection)
-                {
-                    case NORTH:
-                        currentSegment.y += speed;
-                        break;
-                    case SOUTH:
-                        currentSegment.y -= speed;
-                        break;
-                    case WEST:
-                        currentSegment.x -= speed;
-                        break;
-                    case EAST:
-                        currentSegment.x += speed;
-                        break;
-                }
+                lastX = currentSegment.getX();
+                lastY = currentSegment.getY();
+                moveHead(currentSegment);
 
                 headMoved = true;
             }
             else
             {
-                newX = oldX;
-                newY = oldY;
-                oldX = currentSegment.x;
-                oldY = currentSegment.y;
-                currentSegment.x = newX;
-                currentSegment.y = newY;
+                tempX = currentSegment.getX();
+                tempY = currentSegment.getY();
+
+
+                currentSegment.move(lastX,lastY);
+
+                lastX  = tempX;
+                lastY = tempY;
 
 
             }
         }
 
-
-
-
-
-
-
-
-
     }
 
-
-
-
-
-    private boolean illegalMove()
+    private void moveHead(BodySegment head)
     {
-        if(snakeBody.descendingIterator().hasNext())
+        switch(currentDirection)
         {
-            switch (this.currentDirection)
-            {
-                case NORTH:
-                    if ((int) snakeBody.getFirst().y + 1 == (int)snakeBody.descendingIterator().next().y)
-                    {
-                        return true;
-
-                    }
-                    else
-                     return false;
-
-                case WEST:
-                    if ((int) snakeBody.getFirst().x - 1  == (int)snakeBody.descendingIterator().next().x)
-                    {
-
-                        return true;
-                    }
-                    else
-                     return false;
-
-                case SOUTH:
-                    if ((int) snakeBody.getFirst().y - 1 == (int)snakeBody.descendingIterator().next().y)
-                    {
-
-                        return true;
-                    }
-                    else
-                        return false;
-
-                case EAST:
-                    if ((int) snakeBody.getFirst().x + 1 == (int)snakeBody.descendingIterator().next().x)
-                    {
-                        return true;
-                    }
-                    else
-                        return false;
-            }
+            case NORTH:
+                head.move(head.getX(),head.getY() + 1);
+                break;
+            case SOUTH:
+                head.move(head.getX(),head.getY() -1);
+                break;
+            case EAST:
+                head.move(head.getX() +1 , head.getY());
+                break;
+            case WEST:
+                head.move(head.getX() - 1, head.getY());
+                break;
         }
-            return false;
+    }
 
+
+
+    public int getCurrentDirection()
+    {return this.currentDirection;}
+
+    public Iterator<BodySegment> bodySegmentIterator()
+    {
+        return this.snake.listIterator();
     }
 
 
 
 
-    public LinkedList<Vector2> getSnakeBody()
-    {return this.snakeBody;}
 
 
 

@@ -15,7 +15,7 @@ public class MoveEast implements Action {
 
     @Override
     public boolean performAction() {
-        this.snake.changeDirectionEAST();
+        this.snake.changeDirectionEast();
         return true;
     }
 }

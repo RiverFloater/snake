@@ -1,5 +1,7 @@
 package com.rfprod.snakere.Game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 
@@ -66,8 +68,8 @@ public class World {
         }
 
         //spawn snake in middle of the map and add snake to map grid
-        snake = new Snake(new Vector2(this.gridX/2-1,this.gridY/2-1));
-        this.map[(int)snake.getHead().x][(int)snake.getHead().y] = SNAKE_SPACE;
+        snake = new Snake(this.gridX/2-1,this.gridY/2-1);
+        this.map[snake.getHead().getY()][snake.getHead().getX()] = SNAKE_SPACE;
 
         material = new Material(gridX,gridY);
         while(checkMaterialCollision())
@@ -114,15 +116,13 @@ public class World {
     {
 
 
-        if(((snake.getHead().x > gridX )||(snake.getHead().x < 0))||((snake.getHead().y > gridY)||(snake.getHead().y <0)))
+        if(!gameOver())
         {
-            snakeCrashed = false;
-        }
-        else
-        {
+
             if(checkMaterialCollision())
             {
-                snake.addBodySegment(gridX,gridY);
+
+                createNewSegment();
                 material.changeLocation();
                 while(checkMaterialCollision())
                 {
@@ -130,26 +130,26 @@ public class World {
                 }
             }
 
-            //create mapbase
-            for(int y = 0; y< gridY;y++)
+
+            for(int y = 0; y < gridY ; y++)
             {
-                for(int x = 0;x <gridX;x++)
+                for(int x = 0; x < gridY ; x++)
                 {
-                    this.map[y][x] = EMPTY_SPACE;
+                    map[y][x] = EMPTY_SPACE;
                 }
             }
 
-            //add snake to map
-            Iterator<Vector2> iterator =  snake.getSnakeBody().descendingIterator();
-            while (iterator.hasNext()  )
+            Iterator<BodySegment> it = snake.bodySegmentIterator();
+            BodySegment currentSegment;
+            while(it.hasNext())
             {
-                Vector2 currentSegment = iterator.next();
-                this.map[(int)currentSegment.y][(int)currentSegment.x] = SNAKE_SPACE;
+                currentSegment = it.next();
+                map[currentSegment.getY()][currentSegment.getX()] = SNAKE_SPACE;
             }
 
-
-
             map[material.getCurrentY()][material.getCurrentX()] = MATERIAL_SPACE;
+
+
 
 
 
@@ -168,23 +168,94 @@ public class World {
 
 
 
+    private void createNewSegment()
+    {
+        Iterator<BodySegment> it = snake.bodySegmentIterator();
+        BodySegment prevSegment = null;
+        BodySegment currentSegment = null;
+
+        int xDifference;
+        int yDifference;
+
+        while(it.hasNext())
+        {
+            currentSegment = it.next();
+            if(it.hasNext())
+            {
+                prevSegment = currentSegment;
+            }
+
+        }
+
+        if(prevSegment == null)
+        {
+           switch(snake.getCurrentDirection())
+           {
+               case Snake.NORTH:
+                   snake.addBodySegment(snake.getHead().getX(),snake.getHead().getY()-1);
+                   break;
+               case Snake.SOUTH:
+                   snake.addBodySegment(snake.getHead().getX(),snake.getHead().getY()+1);
+                   break;
+               case Snake.WEST:
+                   snake.addBodySegment(snake.getHead().getX()+1,snake.getHead().getY());
+                   break;
+               case Snake.EAST:
+                   snake.addBodySegment(snake.getHead().getX()-1,snake.getHead().getY());
+                   break;
+
+
+           }
+        }
+        else
+        {
+            xDifference = prevSegment.getX() - currentSegment.getX();
+            yDifference = prevSegment.getY() - currentSegment.getY();
+
+            if(((currentSegment.getX() + xDifference < 0 )|| (currentSegment.getX() + xDifference >= gridX))||((currentSegment.getY() + yDifference < 0)||(currentSegment.getY() + yDifference >= gridY)))
+            {
+                //look for an empty space to put new segment
+
+
+            }
+            else
+            {
+                snake.addBodySegment(currentSegment.getX()+xDifference,currentSegment.getY() + yDifference);
+            }
+        }
 
 
 
+
+    }
+
+
+
+    private boolean gameOver()
+    {
+        BodySegment head = snake.getHead();
+        if(((head.getX() >= gridX || head.getX() < 0))||((head.getY()>=gridY || head.getY() < 0)))
+        {
+            return true;
+        }
+        else
+            return  false;
+
+    }
 
     private boolean checkMaterialCollision()
     {
-        Iterator<Vector2> iterator = snake.getSnakeBody().descendingIterator();
-        Vector2 currentVector;
+        Iterator<BodySegment> iterator = snake.bodySegmentIterator();
+        BodySegment currentSegment;
         boolean collisionFound = false;
         int x;
         int y;
 
         while (iterator.hasNext())
         {
-            currentVector = iterator.next();
-            x = (int)currentVector.x;
-            y = (int) currentVector.y;
+            currentSegment = iterator.next();
+            x =  currentSegment.getX();
+            y =  currentSegment.getY();
 
             if(x == material.getCurrentX())
             {
