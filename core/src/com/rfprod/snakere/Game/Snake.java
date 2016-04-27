@@ -25,7 +25,7 @@ public class Snake {
 
 
     private LinkedList<BodySegment> snake;
-    private int lastDirection;
+    private int impossibleDirection;
     private int currentDirection;
     private int speed;
 
@@ -44,7 +44,7 @@ public class Snake {
         snake = new LinkedList<BodySegment>();
 
         snake.add(new BodySegment(x,y));
-        lastDirection = NOT_SET;
+        impossibleDirection = NOT_SET;
         currentDirection = NOT_SET;
         speed = DEFAULT_SPEED;
 
@@ -55,36 +55,36 @@ public class Snake {
 
     public void changeDirectionNorth()
     {
-        if (this.currentDirection != NORTH)
+        if (impossibleDirection != NORTH)
         {
-            lastDirection = currentDirection;
+            impossibleDirection = SOUTH;
             currentDirection = NORTH;
         }
     }
 
     public void changeDirectionWest()
     {
-        if (this.currentDirection != WEST)
+        if (impossibleDirection != WEST)
         {
-            lastDirection = currentDirection;
+            impossibleDirection = EAST;
             currentDirection = WEST;
         }
     }
 
     public void changeDirectionEast()
     {
-        if (this.currentDirection != EAST)
+        if (impossibleDirection != EAST)
         {
-            lastDirection = currentDirection;
+            impossibleDirection = WEST;
             currentDirection = EAST;
         }
     }
 
     public void changeDirectionSouth()
     {
-        if (this.currentDirection != SOUTH)
+        if (impossibleDirection != SOUTH )
         {
-            lastDirection = currentDirection;
+            impossibleDirection = NORTH;
             currentDirection = SOUTH;
         }
     }
@@ -168,6 +168,12 @@ public class Snake {
         return this.snake.listIterator();
     }
 
+
+
+    public int size()
+    {
+        return snake.size();
+    }
 
 
 

@@ -40,7 +40,7 @@ public class World {
     private Snake snake;
     private Material material;
 
-    private boolean snakeCrashed = false;
+
 
 
     private long timeLastUpdate = 0;
@@ -87,15 +87,14 @@ public class World {
     {
 
 
-        if(!snakeCrashed)
-        {
-            if (TimeUtils.nanoTime() - timeLastUpdate > 1000000000) {
+
+            if (TimeUtils.nanoTime() - timeLastUpdate > 100000000) {
 
                 snake.move();
                 updateMap();
                 timeLastUpdate = TimeUtils.nanoTime();
             }
-        }
+
 
     }
 
@@ -116,33 +115,28 @@ public class World {
     {
 
 
-        if(!gameOver())
-        {
+        if(!gameOver()) {
 
-            if(checkMaterialCollision())
-            {
+            if (checkMaterialCollision()) {
 
                 createNewSegment();
                 material.changeLocation();
-                while(checkMaterialCollision())
-                {
+                while (checkMaterialCollision()) {
                     material.changeLocation();
                 }
             }
 
 
-            for(int y = 0; y < gridY ; y++)
-            {
-                for(int x = 0; x < gridY ; x++)
-                {
+            for (int y = 0; y < gridY; y++) {
+                for (int x = 0; x < gridY; x++) {
                     map[y][x] = EMPTY_SPACE;
                 }
             }
 
+
             Iterator<BodySegment> it = snake.bodySegmentIterator();
             BodySegment currentSegment;
-            while(it.hasNext())
-            {
+            while (it.hasNext()) {
                 currentSegment = it.next();
                 map[currentSegment.getY()][currentSegment.getX()] = SNAKE_SPACE;
             }
@@ -150,19 +144,7 @@ public class World {
             map[material.getCurrentY()][material.getCurrentX()] = MATERIAL_SPACE;
 
 
-
-
-
         }
-
-
-
-
-
-
-
-
-
 
     }
 
@@ -233,15 +215,37 @@ public class World {
 
     private boolean gameOver()
     {
+        if(collisionSnake()|| collisionWall())
+            return true;
+        else
+        return false;
+
+
+
+
+
+    }
+
+    private boolean collisionWall()
+    {
+
         BodySegment head = snake.getHead();
+
         if(((head.getX() >= gridX || head.getX() < 0))||((head.getY()>=gridY || head.getY() < 0)))
         {
             return true;
         }
         else
-            return  false;
+            return false;
+    }
+
+    private boolean collisionSnake()
+    {
+        
+
 
     }
+
 
     private boolean checkMaterialCollision()
     {
