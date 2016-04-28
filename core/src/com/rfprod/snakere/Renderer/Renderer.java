@@ -2,6 +2,7 @@ package com.rfprod.snakere.Renderer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.rfprod.snakere.Game.World;
 
@@ -11,15 +12,16 @@ import com.rfprod.snakere.Game.World;
 public class Renderer {
 
 
-    private final float  TIME_STEP = 30f;
-    private float deltaPassed = 0f;
+
 
 
     private OrthographicCamera camera;
     private SpriteBatch batch;
+    private BitmapFont bitmapFont;
 
     private World world;
     private MapRenderer map;
+    private ScoreBorder scoreBorder;
 
     public Renderer(World world)
     {
@@ -27,22 +29,25 @@ public class Renderer {
 
         Gdx.graphics.getHeight();
 
+        batch = new SpriteBatch();
+        bitmapFont = new BitmapFont();
+
+        map = new MapRenderer(this.world,this);
+        scoreBorder =  new ScoreBorder(0,world.getWorldSize_y()*world.getBlockSize(),world.getWorldSize_x(),world.getBlockSize(),bitmapFont);
+
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false,world.getWorldSize_x(),world.getWorldSize_y());
+        camera.setToOrtho(false,world.getWorldSize_x(),world.getWorldSize_y()+scoreBorder.getBorderSizeY());
 
 
 
-        batch = new SpriteBatch();
-        
-        map = new MapRenderer(this.world,this);
+
 
     }
 
     public void render(float delta)
     {
 
-        deltaPassed += delta;
 
 
             camera.update();
@@ -51,11 +56,12 @@ public class Renderer {
             batch.setProjectionMatrix(camera.combined);
 
             batch.begin();
-
             map.render(delta);
 
 
             batch.end();
+
+
 
 
 

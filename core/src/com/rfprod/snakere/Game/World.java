@@ -39,6 +39,9 @@ public class World {
 
     private Snake snake;
     private Material material;
+    private Score score;
+
+    private boolean gameOver = false;
 
 
 
@@ -78,6 +81,8 @@ public class World {
         }
         this.map[material.getCurrentY()][material.getCurrentX()] = MATERIAL_SPACE;
 
+        score = new Score();
+
 
 
     }
@@ -114,36 +119,42 @@ public class World {
     private void updateMap()
     {
 
+        if(!gameOver)
+        {
+            if(!collisionWall() && !collisionSnake())
+            {
 
-        if(!gameOver()) {
+                if (checkMaterialCollision()) {
 
-            if (checkMaterialCollision()) {
-
-                createNewSegment();
-                material.changeLocation();
-                while (checkMaterialCollision()) {
+                    createNewSegment();
+                    score.increaseScore();
                     material.changeLocation();
+                    while (checkMaterialCollision()) {
+                        material.changeLocation();
+                    }
                 }
-            }
 
 
-            for (int y = 0; y < gridY; y++) {
-                for (int x = 0; x < gridY; x++) {
-                    map[y][x] = EMPTY_SPACE;
+                for (int y = 0; y < gridY; y++) {
+                    for (int x = 0; x < gridY; x++) {
+                        map[y][x] = EMPTY_SPACE;
+                    }
                 }
+
+
+                Iterator<BodySegment> it = snake.bodySegmentIterator();
+                BodySegment currentSegment;
+                while (it.hasNext()) {
+                    currentSegment = it.next();
+                    map[currentSegment.getY()][currentSegment.getX()] = SNAKE_SPACE;
+                }
+
+                map[material.getCurrentY()][material.getCurrentX()] = MATERIAL_SPACE;
             }
-
-
-            Iterator<BodySegment> it = snake.bodySegmentIterator();
-            BodySegment currentSegment;
-            while (it.hasNext()) {
-                currentSegment = it.next();
-                map[currentSegment.getY()][currentSegment.getX()] = SNAKE_SPACE;
+            else
+            {
+                gameOver = true;
             }
-
-            map[material.getCurrentY()][material.getCurrentX()] = MATERIAL_SPACE;
-
-
         }
 
     }
@@ -213,18 +224,7 @@ public class World {
 
 
 
-    private boolean gameOver()
-    {
-        if(collisionSnake()|| collisionWall())
-            return true;
-        else
-        return false;
 
-
-
-
-
-    }
 
     private boolean collisionWall()
     {
@@ -239,9 +239,19 @@ public class World {
             return false;
     }
 
-    private boolean collisionSnake()
-    {
-        
+    private boolean collisionSnake() {
+
+        if (snake.size() > 3)
+        { BodySegment head = snake.getHead();
+            int headX = head.getX();
+            int headY = head.getY();
+
+            if (map[headY][headX] == SNAKE_SPACE)
+                return true;
+            else
+                return false;
+        }
+        else return false;
 
 
     }
