@@ -17,7 +17,6 @@ public class MapRenderer
 
 
     private World world;
-    private Renderer renderer;
     private SpriteBatch batch;
 
     private Texture emptyTexture;
@@ -35,7 +34,6 @@ public class MapRenderer
         materialTexture = new Texture(Gdx.files.internal("MATERIAL_64.png"));
 
         this.world = world;
-        this.renderer = renderer;
         this.batch = renderer.getBatch();
 
 

@@ -115,6 +115,9 @@ public class World {
     {
         return this.map;
     }
+    public Score getScore()
+    {return this.score;}
+
 
     private void updateMap()
     {

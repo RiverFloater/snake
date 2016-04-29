@@ -1,50 +1,91 @@
 package com.rfprod.snakere.Renderer;
 
+
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.rfprod.snakere.Game.Score;
+
+
 
 /**
- * Created by cmjim on 4/27/2016.
+ * Will handle the Score display at the top of the map.
+ *
+ * TODO: Implement smaller font type as current font is ugly. Also grab a base border texture for stand in.
+ *
+ *
  */
+
+
 public class ScoreBorder
 {
-    private int borderSizeX;
-    private int borderSizeY;
 
-    private int x;
-    private int y;
+    private SpriteBatch batch;
+    private BitmapFont font;
+    private Texture borderBackground;
 
-    private BitmapFont bitmapFont;
 
-    public ScoreBorder(int x, int y,int borderSizeX,int borderSizeY,BitmapFont bitmapFont,SpriteBatch batch)
+    private int startX;
+    private int startY;
+    private int endX;
+    private int endY;
+
+    private int borderWidth;
+    private int borderHeight;
+
+
+    private Score score;
+
+
+
+    public ScoreBorder(int startX, int startY, int borderWidth, int borderHeight, SpriteBatch batch, Score score)
     {
-        this.x = x;
-        this.y = y;
-        this.borderSizeX = borderSizeX;
-        this.borderSizeY = borderSizeY;
-        this.bitmapFont = bitmapFont;
+        this.batch = batch;
+        this.font = new BitmapFont();
+        font.getData().setScale(.5f,.5f);
+
+
+        this.startX = startX;
+        this.startY = startY;
+        this.borderWidth = borderWidth;
+        this.borderHeight = borderHeight;
+        this.endX = startX + borderWidth;
+        this.endY = startY + borderHeight;
+
+        this.score = score;
+
+
+
+        this.font.setColor(Color.BLACK);
+
+
+
 
     }
 
-    public void renderScore(int score)
+
+    public void render(float delta)
     {
 
+        font.draw(batch,"Score: " + score.getScore() ,endX/2,endY);
 
     }
 
-    public int getBorderSizeX()
-    {return this.borderSizeX;}
+    public int getBorderWidth()
+    {return this.borderWidth;}
 
-    public int getBorderSizeY()
-    {return this.borderSizeY;}
-
-    private void centerText(String string, int size)
+    public int getBorderHeight()
     {
-        int length = string.length();
-        int x = borderSizeX/2 - length/2;
-        int y = borderSizeY/2;
-
+        return this.borderHeight;
     }
+    public void dispose()
+    {
+        this.font.dispose();
+        this.borderBackground.dispose();
+        this.batch.dispose();
+    }
+
 
 
 

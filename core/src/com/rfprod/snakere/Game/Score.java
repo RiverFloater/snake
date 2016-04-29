@@ -38,15 +38,20 @@ public class Score
 
     private void adjustMultiplier()
     {
-        if(materialsEaten > 4)
-        {
-           this.currentMultiplier= MULTIPLIER_SECOND;
-        }
 
         if(materialsEaten > 9)
         {
             this.currentMultiplier = MULTIPLIER_FINAL;
         }
+       else if(materialsEaten > 4)
+        {
+           this.currentMultiplier= MULTIPLIER_SECOND;
+        }
+        else
+            this.currentMultiplier = MULTIPLIER_BASE;
+
+
+
 
     }
 

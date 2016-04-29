@@ -17,7 +17,7 @@ public class Renderer {
 
     private OrthographicCamera camera;
     private SpriteBatch batch;
-    private BitmapFont bitmapFont;
+
 
     private World world;
     private MapRenderer map;
@@ -27,17 +27,17 @@ public class Renderer {
     {
         this.world = world;
 
-        Gdx.graphics.getHeight();
+
 
         batch = new SpriteBatch();
-        bitmapFont = new BitmapFont();
+
 
         map = new MapRenderer(this.world,this);
-        scoreBorder =  new ScoreBorder(0,world.getWorldSize_y()*world.getBlockSize(),world.getWorldSize_x(),world.getBlockSize(),bitmapFont);
+        scoreBorder = new ScoreBorder(0,world.getWorldSize_y(),world.getWorldSize_x(),world.getBlockSize(),batch,world.getScore());
 
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false,world.getWorldSize_x(),world.getWorldSize_y()+scoreBorder.getBorderSizeY());
+        camera.setToOrtho(false,world.getWorldSize_x(),world.getWorldSize_y()+scoreBorder.getBorderHeight());
 
 
 
@@ -57,6 +57,8 @@ public class Renderer {
 
             batch.begin();
             map.render(delta);
+            scoreBorder.render(delta);
+
 
 
             batch.end();
@@ -76,7 +78,7 @@ public class Renderer {
         Gdx.gl.glClear(Gdx.gl.GL_COLOR_BUFFER_BIT);
     }
 
-    private void dispose()
+    public void dispose()
     {
         batch.dispose();
     }
