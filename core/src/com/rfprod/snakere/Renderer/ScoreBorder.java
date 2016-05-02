@@ -1,6 +1,7 @@
 package com.rfprod.snakere.Renderer;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -42,6 +43,7 @@ public class ScoreBorder
     public ScoreBorder(int startX, int startY, int borderWidth, int borderHeight, SpriteBatch batch, Score score)
     {
         this.batch = batch;
+
         this.font = new BitmapFont();
         font.getData().setScale(.5f,.5f);
 

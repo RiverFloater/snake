@@ -30,7 +30,13 @@ public class World {
     public static final int SNAKE_SPACE = 1;
     public static final int MATERIAL_SPACE = 2;
 
+    public static final int GAME_OVER = 0;
+    public static final int GAME_ON = 1;
+    public static final int CHANGE_SCREEN = 2;
+
+
     private final int BLOCK_SIZE = 10;
+    private int gameState = GAME_ON;
 
     private int[][] map;
     private int worldSize_x;
@@ -41,7 +47,8 @@ public class World {
     private Material material;
     private Score score;
 
-    private boolean gameOver = false;
+
+
 
 
 
@@ -92,25 +99,39 @@ public class World {
     {
 
 
+            if(gameState == GAME_ON)
+            {
+                if (TimeUtils.nanoTime() - timeLastUpdate > 100000000) {
 
-            if (TimeUtils.nanoTime() - timeLastUpdate > 100000000) {
-
-                snake.move();
-                updateMap();
-                timeLastUpdate = TimeUtils.nanoTime();
+                    snake.move();
+                    updateMap();
+                    timeLastUpdate = TimeUtils.nanoTime();
+                }
             }
+            else if (gameState == GAME_OVER)
+            {
+
+                gameState = CHANGE_SCREEN;
+
+            }
+
 
 
     }
 
 
-
+    public int getGameState()
+    {
+        return this.gameState;
+    }
 
     public int getWorldSize_x(){return this.worldSize_x;}
     public int getWorldSize_y(){return this.worldSize_y;}
     public int getBlockSize(){return this.BLOCK_SIZE;}
     public int getGridX(){return this.gridX;}
     public int getGridY(){return this.gridY;}
+
+
     public Snake getSnake(){return this.snake;}
 
     public int[][] getMap()
@@ -121,11 +142,10 @@ public class World {
     {return this.score;}
 
 
+
     private void updateMap()
     {
 
-        if(!gameOver)
-        {
             if(!collisionWall() && !collisionSnake())
             {
 
@@ -158,11 +178,11 @@ public class World {
             }
             else
             {
-                gameOver = true;
+                gameState = GAME_OVER;
             }
         }
 
-    }
+
 
 
 
@@ -290,6 +310,7 @@ public class World {
 
       return collisionFound;
     }
+
 
 
 

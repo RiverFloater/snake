@@ -1,5 +1,6 @@
 package com.rfprod.snakere.Screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
@@ -12,12 +13,15 @@ import com.rfprod.snakere.Renderer.Renderer;
  */
 public class GameScreen implements Screen {
 
+
+    private Game game;
     private World world;
     private Renderer renderer;
     private InputManager inputManager;
 
-    public GameScreen()
+    public GameScreen(Game game)
     {
+        this.game = game;
         world = new World(10,10);
         renderer = new Renderer(this.world);
         inputManager = new InputManager(world);
@@ -33,9 +37,15 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta)
     {
-        inputManager.processInput();
-        world.update(delta);
-        renderer.render(delta);
+        if(world.getGameState() != world.CHANGE_SCREEN) {
+            inputManager.processInput();
+            world.update(delta);
+            renderer.render(delta);
+        }
+        else
+        {
+            game.setScreen(new SplashScreen(this.game));
+        }
     }
 
     @Override
@@ -61,6 +71,7 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         renderer.dispose();
+
 
     }
 }
