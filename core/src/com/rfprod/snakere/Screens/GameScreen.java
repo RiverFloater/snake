@@ -2,11 +2,11 @@ package com.rfprod.snakere.Screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.rfprod.snakere.Game.HighScores;
 import com.rfprod.snakere.Game.World;
 import com.rfprod.snakere.Input.InputManager;
-import com.rfprod.snakere.Renderer.Renderer;
+import com.rfprod.snakere.Renderer.GameRender.Renderer;
 
 /**
  * Created by cjimene1 on 4/7/2016.
@@ -17,15 +17,19 @@ public class GameScreen implements Screen {
     private Game game;
     private World world;
     private Renderer renderer;
+    private HighScores highScores;
     private InputManager inputManager;
+
 
     public GameScreen(Game game)
     {
         this.game = game;
-        world = new World(10,10);
+
+        world = new World(5,5);
         renderer = new Renderer(this.world);
         inputManager = new InputManager(world);
         Gdx.input.setInputProcessor(inputManager);
+        highScores = new HighScores();
     }
 
 
@@ -44,7 +48,7 @@ public class GameScreen implements Screen {
         }
         else
         {
-            game.setScreen(new SplashScreen(this.game));
+           game.setScreen(new HighScoreScreen(this.game,world.getScore().getScore()));
         }
     }
 

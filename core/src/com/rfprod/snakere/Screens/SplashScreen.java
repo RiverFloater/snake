@@ -9,8 +9,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.rfprod.snakere.Game.HighScores;
 
-import java.util.Queue;
+
 
 
 /**
@@ -23,6 +24,8 @@ public class SplashScreen implements Screen
     private final String HIGH_SCORES = "HIGH SCORES";
 
     private Game game;
+
+
     private Texture background;
     private SpriteBatch batch;
     private BitmapFont font;
@@ -34,16 +37,26 @@ public class SplashScreen implements Screen
     private String currentSelectable;
 
 
+
+
     public SplashScreen(Game game)
     {
         this.game = game;
+
         camera = new OrthographicCamera(screenWidth,screenHeight);
-        camera.position.set(screenWidth/2,screenHeight/2,0);
+        camera.position.set(screenWidth / 2, screenHeight / 2, 0);
         camera.update();
+
         background = new Texture(Gdx.files.internal("SplashBackground.png"));
         batch = new SpriteBatch();
         font = new BitmapFont();
+
         currentSelectable = NEW_GAME;
+
+
+
+
+
 
 
     }
@@ -173,6 +186,8 @@ public class SplashScreen implements Screen
        {
             if(currentSelectable == NEW_GAME)
                 this.game.setScreen(new GameScreen(game));
+          // else
+              //  this.game.setScreen(new HighScoreScreen);
 
        }
     }

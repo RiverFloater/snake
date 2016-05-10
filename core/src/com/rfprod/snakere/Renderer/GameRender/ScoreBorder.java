@@ -1,4 +1,4 @@
-package com.rfprod.snakere.Renderer;
+package com.rfprod.snakere.Renderer.GameRender;
 
 
 import com.badlogic.gdx.Gdx;

@@ -1,37 +1,145 @@
 package com.rfprod.snakere.Game;
 
+import com.badlogic.gdx.Gdx;
 
-import com.sun.xml.internal.ws.api.server.EndpointReferenceExtensionContributor;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+
 
 /**
- * Will hold the 5 highest scores in the game.
+ * Created by cmjim on 5/3/2016.
  */
-public class HighScores {
+public class HighScores
+{
+
+    public final int MAX_HIGH_SCORES = 5;
+
+    private final String FILE_NAME = "HighScore.txt";
+
+    private Record[] scores;
 
 
-    private final int SCORES_KEPT = 5;
 
-    private class Record
+
+    public HighScores()
     {
 
-        public Record()
+        scores = new Record[MAX_HIGH_SCORES];
+        loadScores();
+
+
+    }
+
+
+    // will read the file and enter score data. If file does not exist it will load default scores.
+    /*
+
+    File Format:
+    X,***
+    X,***
+    X,***
+
+    where X denotes the score and * denotes the users initials;
+    SPECIAL CASE: - will count as blank space;
+     */
+    private void loadScores()
+    {
+
+        if(Gdx.files.internal(FILE_NAME).exists())
         {
-            int score = 0;
-            String initials = null;
+            BufferedReader reader = new BufferedReader(Gdx.files.internal(FILE_NAME).reader());
+            try
+            {
+                String line;
+
+                for(int count = 0; (line=reader.readLine())!= null; count++)
+                {
+                     String[] data = line.split(",");
+                    scores[count] = new Record(Integer.parseInt(data[0]),data[1]);
+                }
+
+                reader.close();
+            }
+            catch(IOException e )
+            {
+                Gdx.app.log("IOEXCEPT", FILE_NAME+"NOT FOUND AT INTERNAL");
+            }
+
+        }
+        else
+        {
+            for(Record score:scores)
+            {
+                score = new Record();
+            }
         }
 
     }
 
-   private Record[] records;
 
-    public HighScores()
+    public boolean possibleHighScore(int score)
     {
-        records = new Record[SCORES_KEPT];
+        boolean acceptableScore = false;
 
+
+        for(Record record: scores)
+        {
+            if(score > record.getScore())
+                acceptableScore = true;
+        }
+
+        return acceptableScore;
+    }
+
+
+
+    public void addScore(int score,String initials)
+    {
+
+       if(possibleHighScore(score))
+       {
+
+           boolean scoreAddedtoList = false;
+            Record movingRecord = null;
+
+
+           for(Record currentRecord: scores) {
+               if (!scoreAddedtoList) {
+                   if (currentRecord.getScore() < score) {
+                       movingRecord = new Record(currentRecord.getScore(), currentRecord.getInitials());
+                       currentRecord = new Record(score, initials);
+                       scoreAddedtoList = true;
+                   }
+               } else {
+                   Record temp = new Record(movingRecord.getScore(), movingRecord.getInitials());
+                   currentRecord = new Record(movingRecord.getScore(), movingRecord.getInitials());
+                   movingRecord = temp;
+               }
+           }
+
+       }
 
 
 
     }
+
+
+    public void saveScores()
+    {
+        if(Gdx.files.internal(FILE_NAME).exists())
+        {
+            Gdx.files.internal(FILE_NAME).delete();
+        }
+
+        Gdx.files.internal(FILE_NAME).write(false);
+        for(Record score: scores)
+        {
+            Gdx.files.internal(FILE_NAME).writeString(score.getScore() + "," + score.getInitials() + "\n", true);
+        }
+
+    }
+
 
 
 
