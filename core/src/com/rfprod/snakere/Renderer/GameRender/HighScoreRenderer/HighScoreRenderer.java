@@ -11,7 +11,7 @@ import com.rfprod.snakere.Screens.HighScoreScreen;
 
 
 /**
- * Created by cmjim on 5/9/2016.
+ * TODO: CREATE CUSTOM FONTS USING FREETYPE. Will be its own class
  */
 public class HighScoreRenderer
 {
@@ -21,7 +21,7 @@ public class HighScoreRenderer
     private SpriteBatch batch;
 
 
-    private BitmapFont font;
+
     private OrthographicCamera camera;
 
     private final int screenWidth = 480;
@@ -93,6 +93,14 @@ public class HighScoreRenderer
     private void renderBackground()
     {
         batch.draw(background, 0, 0, screenWidth, screenHeight);
+    }
+
+    private void renderScores()
+    {
+
+
+
+
     }
 
 
