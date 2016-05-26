@@ -97,14 +97,14 @@ public class HighScores
     public void addScore(int score,String initials)
     {
 
-       if(possibleHighScore(score))
-       {
+
 
            boolean scoreAddedtoList = false;
             Record movingRecord = null;
 
 
-           for(Record currentRecord: scores) {
+           for( Record currentRecord: scores)
+           {
                if (!scoreAddedtoList) {
                    if (currentRecord.getScore() < score) {
                        movingRecord = new Record(currentRecord.getScore(), currentRecord.getInitials());
