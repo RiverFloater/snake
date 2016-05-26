@@ -1,72 +1,46 @@
 package com.rfprod.snakere.Util;
 
-
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 /**
- * Created by cjimene1 on 5/16/2016.
+ * Created by cjimene1 on 5/24/2016.
  */
-public class TextContainer extends Container
+public class TextContainer extends BaseContainer
 {
 
 
-    static final int LEFT = 0;
-    static final int CENTER = 1;
-    static final int RIGHT = 2;
-
-    private final int DEFAULT_ALIGNMENT = 0;
-
-    private int horizontaAlignment;
-    private String containerText;
+    private String text;
+    private BitmapFont fontType;
 
 
-
-
-    public TextContainer(int startX, int startY, int width, int height)
+    public TextContainer(int originX, int originY, int sizeX, int sizeY,BitmapFont font)
     {
-        super(startX,startY,width,height);
-        this.horizontaAlignment = DEFAULT_ALIGNMENT;
-        this.containerText = "";
-
+        super(originX, originY, sizeX, sizeY);
+        this.fontType = font;
+        this.text = "";
     }
+
 
     public void setText(String text)
     {
-        this.containerText = new String(text);
+        this.text = new String(text);
     }
 
-    public void setHorizontaAlignment(int alignment)
+    public void render(Batch batch)
     {
-        if((alignment >= LEFT) && (alignment <= RIGHT))
-        {
-            this.horizontaAlignment = alignment;
-        }
-
+        renderCenter(batch);
     }
 
-    public void drawContent(BitmapFont font, Batch batch)
+    private void renderCenter(Batch batch)
     {
-
-        switch(horizontaAlignment)
-        {
-            case LEFT:
-
-        }
-
+        fontType.draw(batch,this.text,this.getMidX()-(FontManager.getStringSize(fontType,this.text))/2,this.getOriginY());
     }
 
-    private int getGlyphSpacing(BitmapFont font)
-    {
-        int spacingAdjustment = 0;
-        for(char c: containerText.toCharArray())
-        {
-            spacingAdjustment += font.getData().getGlyph(c).width;
-        }
 
-        return spacingAdjustment;
 
-    }
+
+
 
 
 

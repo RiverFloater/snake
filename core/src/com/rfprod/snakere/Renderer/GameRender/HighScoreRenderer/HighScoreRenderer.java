@@ -7,7 +7,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.rfprod.snakere.Game.HighScores;
+import com.rfprod.snakere.Game.Record;
+import com.rfprod.snakere.Game.Score;
 import com.rfprod.snakere.Screens.HighScoreScreen;
+import com.rfprod.snakere.Util.FontManager;
+import com.rfprod.snakere.Util.TextContainer;
 
 
 /**
@@ -19,6 +24,8 @@ public class HighScoreRenderer
     private HighScoreScreen screen;
     private Texture background;
     private SpriteBatch batch;
+    private FontManager fontManager;
+    private BitmapFont font;
 
 
 
@@ -26,6 +33,8 @@ public class HighScoreRenderer
 
     private final int screenWidth = 480;
     private final int screenHeight = 320;
+
+    private TextContainer[] containers;
 
 
     /*
@@ -40,14 +49,7 @@ public class HighScoreRenderer
       5)   X    DKF
      */
 
-    private int containerSizeWidth;
-    private int containerSizeHeight;
 
-    private int scoreHeightMaxSize;
-    private int containerX;
-    private int containerY;
-    private int[] divisionsX;
-    private int[] divisionsY;
 
 
 
@@ -59,6 +61,8 @@ public class HighScoreRenderer
         background = new Texture(Gdx.files.internal("SplashBackground.png"));
 
         batch = new SpriteBatch();
+        fontManager = new FontManager();
+        font = fontManager.getFont(20);
 
 
 
@@ -66,7 +70,11 @@ public class HighScoreRenderer
         camera.position.set(screenWidth / 2, screenHeight / 2, 0);
         camera.update();
 
-        createContainer();
+        createTextContainers();
+
+
+
+
 
 
 
@@ -81,7 +89,7 @@ public class HighScoreRenderer
 
         batch.begin();
         renderBackground();
-
+        renderScores();
 
         batch.end();
 
@@ -98,41 +106,44 @@ public class HighScoreRenderer
     private void renderScores()
     {
 
-
-
-
-    }
-
-
-
-    private void createContainer()
-    {
-        containerSizeWidth = screenWidth/2;
-        containerSizeHeight = screenHeight/2;
-        scoreHeightMaxSize = containerSizeHeight/(this.screen.getScores().MAX_HIGH_SCORES);
-        containerX = (screenWidth - containerSizeWidth -(containerSizeWidth/2) );
-        containerY = (screenHeight - containerSizeHeight - (containerSizeHeight/2));
-
-
-
-        createDivisions(screen.getScores().MAX_HIGH_SCORES);
-
-
-    }
-
-    private void createDivisions(int numOfDivisions)
-    {
-        divisionsX = new int[numOfDivisions];
-        divisionsY = new int[numOfDivisions];
-
-        for(int loc = 0; loc < numOfDivisions;loc++)
+        for(TextContainer container: containers)
         {
-            divisionsX[loc] = containerX;
-            divisionsY[loc] = containerY + (scoreHeightMaxSize*loc);
+            container.render(this.batch);
         }
+
+
     }
 
 
+
+
+    //create a group on containers in the center of the screen to display the scores
+    //5 containers at the time.. can change
+    private void createTextContainers()
+    {
+
+        int totalWidth = screenWidth/2;
+        int totalHeight = screenHeight/2;
+        int startX = 0 + totalWidth/2;
+        int startY = 0 + totalHeight/2;
+
+        int containerHeight = totalHeight/screen.getScores().MAX_HIGH_SCORES;
+
+        containers = new TextContainer[screen.getScores().MAX_HIGH_SCORES];
+        HighScores scores = this.screen.getScores();
+        for(int count = 0;count < screen.getScores().MAX_HIGH_SCORES;count++)
+        {
+            containers[count] = new TextContainer(startX,startY +(containerHeight*count),totalWidth,containerHeight,this.font);
+            containers[count].setText((scores.getScores()[count].getInitials() +"          " + scores.getScores()[count].getScore()));
+        }
+
+
+
+
+
+
+
+    }
 
 
     private void clearScreen()

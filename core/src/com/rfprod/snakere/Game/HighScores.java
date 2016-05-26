@@ -69,9 +69,9 @@ public class HighScores
         }
         else
         {
-            for(Record score:scores)
+            for(int count = 0;count < MAX_HIGH_SCORES;count++)
             {
-                score = new Record();
+                this.scores[count] = new Record();
             }
         }
 
@@ -143,6 +143,7 @@ public class HighScores
 
 
 
+    public Record[] getScores(){return this.scores;}
 
 
 

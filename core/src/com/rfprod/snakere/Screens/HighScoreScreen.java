@@ -13,7 +13,9 @@ public class HighScoreScreen implements Screen
 
     private Game game;
     private HighScores scores;
+
     private HighScoreRenderer renderer;
+
 
 
 
@@ -28,10 +30,6 @@ public class HighScoreScreen implements Screen
         renderer = new HighScoreRenderer(this);
 
 
-       // if(this.scores.possibleHighScore(score))
-      //  {
-       //     entryAllowed = true;
-      //  }
 
 
 
