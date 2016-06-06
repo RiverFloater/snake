@@ -109,12 +109,6 @@ public class World {
                     timeLastUpdate = TimeUtils.nanoTime();
                 }
             }
-            else if (gameState == GAME_OVER)
-            {
-
-
-
-            }
 
 
 

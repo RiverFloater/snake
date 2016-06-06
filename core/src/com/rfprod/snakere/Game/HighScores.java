@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
 
 
 /**
@@ -46,9 +47,9 @@ public class HighScores
     private void loadScores()
     {
 
-        if(Gdx.files.internal(FILE_NAME).exists())
+        if(Gdx.files.local(FILE_NAME).exists())
         {
-            BufferedReader reader = new BufferedReader(Gdx.files.internal(FILE_NAME).reader());
+            BufferedReader reader = new BufferedReader(Gdx.files.local(FILE_NAME).reader());
             try
             {
                 String line;
@@ -99,24 +100,30 @@ public class HighScores
 
 
 
-           boolean scoreAddedtoList = false;
-            Record movingRecord = null;
-
-
-           for( Record currentRecord: scores)
+           if(possibleHighScore(score))
            {
-               if (!scoreAddedtoList) {
-                   if (currentRecord.getScore() < score) {
-                       movingRecord = new Record(currentRecord.getScore(), currentRecord.getInitials());
-                       currentRecord = new Record(score, initials);
-                       scoreAddedtoList = true;
-                   }
-               } else {
-                   Record temp = new Record(movingRecord.getScore(), movingRecord.getInitials());
-                   currentRecord = new Record(movingRecord.getScore(), movingRecord.getInitials());
-                   movingRecord = temp;
-               }
+
+                Record temp = new Record(score,initials);
+                Record temp2;
+
+
+                for(int count = MAX_HIGH_SCORES - 1;count != -1; count --)
+                {
+
+                    if(temp.getScore() > this.scores[count].getScore())
+                    {
+                        temp2 = this.scores[count];
+                        this.scores[count] = temp;
+                        temp = temp2;
+                    }
+
+                }
+
+
            }
+
+
+
 
        
 
@@ -127,15 +134,15 @@ public class HighScores
 
     public void saveScores()
     {
-        if(Gdx.files.internal(FILE_NAME).exists())
+        if(Gdx.files.local(FILE_NAME).exists())
         {
-            Gdx.files.internal(FILE_NAME).delete();
+            Gdx.files.local(FILE_NAME).delete();
         }
 
-        Gdx.files.internal(FILE_NAME).write(false);
+        Gdx.files.local(FILE_NAME).write(false);
         for(Record score: scores)
         {
-            Gdx.files.internal(FILE_NAME).writeString(score.getScore() + "," + score.getInitials() + "\n", true);
+            Gdx.files.local(FILE_NAME).writeString(score.getScore() + "," + score.getInitials() + "\n", true);
         }
 
     }

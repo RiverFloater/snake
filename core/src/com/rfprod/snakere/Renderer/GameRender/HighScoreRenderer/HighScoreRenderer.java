@@ -88,8 +88,15 @@ public class HighScoreRenderer
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
-        renderBackground();
-        renderScores();
+        if(screen.expectingEntry())
+        {
+
+        }
+        else
+        {
+            renderBackground();
+            renderScores();
+        }
 
         batch.end();
 

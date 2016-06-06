@@ -16,10 +16,10 @@ public class HighScoreScreen implements Screen
 
     private HighScoreRenderer renderer;
 
-
-
-
     private boolean entryAllowed = false;
+
+
+
 
 
 
@@ -29,11 +29,19 @@ public class HighScoreScreen implements Screen
         scores = new HighScores();
         renderer = new HighScoreRenderer(this);
 
-
-
-
+        if(scores.possibleHighScore(score))
+            entryAllowed = true;
 
     }
+
+    public HighScoreScreen(Game game)
+    {
+        this.game = game;
+        scores = new HighScores();
+        renderer = new HighScoreRenderer(this);
+
+    }
+
 
 
 
@@ -46,6 +54,10 @@ public class HighScoreScreen implements Screen
     public void render(float delta)
     {
 
+        if(this.entryAllowed)
+        {
+
+        }
         renderer.render(delta);
 
     }
@@ -78,6 +90,24 @@ public class HighScoreScreen implements Screen
 
     public HighScores getScores()
     {return this.scores;}
+
+
+    public boolean expectingEntry(){return this.entryAllowed;}
+
+    //will update if expecting input
+    private void update()
+    {
+
+
+
+    }
+
+    private void processInput()
+    {
+
+
+
+    }
 
 
 
