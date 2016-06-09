@@ -1,18 +1,15 @@
 package com.rfprod.snakere.Renderer.GameRender.HighScoreRenderer;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.rfprod.snakere.Game.HighScores;
-import com.rfprod.snakere.Game.Record;
-import com.rfprod.snakere.Game.Score;
 import com.rfprod.snakere.Screens.HighScoreScreen;
 import com.rfprod.snakere.Util.FontManager;
 import com.rfprod.snakere.Util.TextContainer;
+
 
 
 /**
@@ -33,8 +30,17 @@ public class HighScoreRenderer
 
     private final int screenWidth = 480;
     private final int screenHeight = 320;
+    private final int midX = screenWidth/2;
+    private final int midY = screenHeight/2;
 
     private TextContainer[] containers;
+
+    private TextContainer mainInputContainer;
+    private TextContainer headingInputContainer;
+    private TextContainer[] charInputContainers;
+
+
+
 
 
     /*
@@ -72,6 +78,9 @@ public class HighScoreRenderer
 
         createTextContainers();
 
+        if(screen.expectingEntry())
+            createInputPoriton();
+
 
 
 
@@ -88,14 +97,15 @@ public class HighScoreRenderer
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
+
+
+            renderBackground();
+            updateTextContainers();
+            renderScores();
+
         if(screen.expectingEntry())
         {
-
-        }
-        else
-        {
-            renderBackground();
-            renderScores();
+            renderInputPortion();
         }
 
         batch.end();
@@ -151,6 +161,69 @@ public class HighScoreRenderer
 
 
     }
+
+    public void updateTextContainers()
+    {
+        HighScores scores = this.screen.getScores();
+        for(int count = 0;count < screen.getScores().MAX_HIGH_SCORES;count++)
+        {
+            containers[count].setText((scores.getScores()[count].getInitials() +"          " + scores.getScores()[count].getScore()));
+        }
+    }
+
+
+    public void renderInputPortion()
+    {
+
+        char[] initials = screen.getInitialChars();
+        for(int count = 0;count < 3;count++)
+        {
+            charInputContainers[count].setText(Character.toString(initials[count]));
+        }
+
+        this.mainInputContainer.render(this.batch);
+        this.headingInputContainer.render(this.batch);
+        for(TextContainer containers: charInputContainers)
+        {
+            containers.render(this.batch);
+        }
+
+
+
+    }
+
+    private void createInputPoriton()
+    {
+        int mainSizeX = screenWidth/3;
+        int mainSizeY = screenHeight/3;
+
+        int headingSizeX = mainSizeX/2;
+        int headingSizeY = mainSizeY/3;
+
+        this.mainInputContainer = new TextContainer(this.midX-mainSizeX/2,this.midY-mainSizeY/2,mainSizeX,mainSizeY,this.font);
+        this.headingInputContainer = new TextContainer(mainInputContainer.getOriginX(),mainInputContainer.getOriginY()+mainSizeY/2,headingSizeX,headingSizeY,this.font);
+
+        headingInputContainer.setText("Initials: ");
+        this.charInputContainers = new TextContainer[3];
+
+        for(int count = 0;count < 3;count++)
+        {
+            if(count == 0)
+                charInputContainers[count] =new TextContainer(headingInputContainer.getOriginX()+headingInputContainer.getSizeX(),headingInputContainer.getOriginY(),headingSizeX/3,headingSizeY,this.font);
+            else
+            {
+                charInputContainers[count] =new TextContainer(charInputContainers[count-1].getOriginX()+charInputContainers[count-1].getSizeX(),charInputContainers[count-1].getOriginY(),headingSizeX/3,headingSizeY,this.font);
+            }
+        }
+
+
+
+
+
+
+    }
+
+
 
 
     private void clearScreen()

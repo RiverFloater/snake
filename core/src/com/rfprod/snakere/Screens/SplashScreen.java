@@ -168,26 +168,26 @@ public class SplashScreen implements Screen
     private void handleInput()
     {
 
-        if (Gdx.input.isKeyPressed(Input.Keys.W)||Gdx.input.isKeyJustPressed(Input.Keys.UP)||Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_8))
+        if (Gdx.input.isKeyJustPressed(Input.Keys.W)||Gdx.input.isKeyJustPressed(Input.Keys.UP)||Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_8))
         {
             if(currentSelectable == NEW_GAME)
                 currentSelectable = HIGH_SCORES;
             else
                 currentSelectable = NEW_GAME;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)||Gdx.input.isKeyJustPressed(Input.Keys.DOWN)||Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_5))
+        if (Gdx.input.isKeyJustPressed(Input.Keys.S)||Gdx.input.isKeyJustPressed(Input.Keys.DOWN)||Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_5))
         {
             if(currentSelectable == NEW_GAME)
                 currentSelectable = HIGH_SCORES;
             else
                 currentSelectable = NEW_GAME;
         }
-       if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
+       if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
        {
             if(currentSelectable == NEW_GAME)
                 this.game.setScreen(new GameScreen(game));
-          // else
-              //  this.game.setScreen(new HighScoreScreen);
+           else
+                this.game.setScreen(new HighScoreScreen(this.game));
 
        }
     }

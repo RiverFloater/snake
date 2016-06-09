@@ -33,7 +33,7 @@ public class World {
 
     public static final int GAME_OVER = 0;
     public static final int GAME_ON = 1;
-    public static final int CHANGE_SCREEN = 2;
+
 
 
     private final int BLOCK_SIZE = 10;

@@ -25,7 +25,7 @@ public class GameScreen implements Screen {
     {
         this.game = game;
 
-        world = new World(5,5);
+        world = new World(15,15);
         renderer = new Renderer(this.world);
         inputManager = new InputManager(world);
         Gdx.input.setInputProcessor(inputManager);
@@ -41,7 +41,7 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta)
     {
-        if(world.getGameState() != world.CHANGE_SCREEN) {
+        if(world.getGameState() != world.GAME_OVER) {
             inputManager.processInput();
             world.update(delta);
             renderer.render(delta);

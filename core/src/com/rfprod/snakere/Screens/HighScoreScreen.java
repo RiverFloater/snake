@@ -1,8 +1,11 @@
 package com.rfprod.snakere.Screens;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.rfprod.snakere.Game.HighScores;
+import com.rfprod.snakere.Game.ScoreEntrySystem;
 import com.rfprod.snakere.Renderer.GameRender.HighScoreRenderer.HighScoreRenderer;
 
 /**
@@ -15,8 +18,11 @@ public class HighScoreScreen implements Screen
     private HighScores scores;
 
     private HighScoreRenderer renderer;
+    private ScoreEntrySystem entrySystem;
 
     private boolean entryAllowed = false;
+    private int currentScore;
+
 
 
 
@@ -27,10 +33,16 @@ public class HighScoreScreen implements Screen
     {
         this.game = game;
         scores = new HighScores();
+
+
+        if(scores.possibleHighScore(score)) {
+            entryAllowed = true;
+            entrySystem = new ScoreEntrySystem();
+            this.currentScore = score;
+        }
+
         renderer = new HighScoreRenderer(this);
 
-        if(scores.possibleHighScore(score))
-            entryAllowed = true;
 
     }
 
@@ -54,10 +66,7 @@ public class HighScoreScreen implements Screen
     public void render(float delta)
     {
 
-        if(this.entryAllowed)
-        {
-
-        }
+        processInput();
         renderer.render(delta);
 
     }
@@ -94,20 +103,64 @@ public class HighScoreScreen implements Screen
 
     public boolean expectingEntry(){return this.entryAllowed;}
 
-    //will update if expecting input
-    private void update()
+
+    private void submitScore()
     {
 
-
+        scores.addScore(currentScore,stringFromEntrySystem());
+        entryAllowed = false;
 
     }
+
+    private String stringFromEntrySystem()
+    {
+        char[] initials = entrySystem.getInitials();
+
+        String temp = (Character.toString(initials[0])+Character.toString(initials[1])+Character.toString(initials[2]));
+        return temp;
+
+    }
+
+    public char[] getInitialChars(){return this.entrySystem.getInitials();}
+
 
     private void processInput()
     {
 
+        if(Gdx.input.isKeyJustPressed(Input.Keys.A))
+        {
+            if(entryAllowed)
+            entrySystem.prevPos();
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.D))
+        {
+            if(entryAllowed)
+            entrySystem.nextPos();
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.W))
+        {
+            if(entryAllowed)
+            entrySystem.nextChoice();
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.S))
+        {
+            if(entryAllowed)
+            entrySystem.prevChoice();
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
+        {
+            if(entryAllowed)
+            submitScore();
+            scores.saveScores();
+            this.game.setScreen(new SplashScreen(this.game));
+
+        }
+
 
 
     }
+
+
 
 
 

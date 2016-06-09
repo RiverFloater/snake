@@ -25,7 +25,7 @@ public class SnakeReloadedGame extends Game {
     {
 
 
-        this.setScreen(new HighScoreScreen(this));
+        this.setScreen(new SplashScreen(this));
 
 
     }
