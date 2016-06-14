@@ -1,8 +1,16 @@
 package com.rfprod.snakere.Game;
 
 /**
- * Hold the score and initials of a user's high score;
+ *
+ * * Author: Carlos Jimenez
+ * Revised: 6.14.16
+ *
+ * Purpose:   Hold the score and initials of a user's high score;
+ * Consist of number (score) and String (Initials)
+ *
+ *
  */
+
 public class Record
 {
 

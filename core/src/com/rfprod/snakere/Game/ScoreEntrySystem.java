@@ -1,8 +1,12 @@
 package com.rfprod.snakere.Game;
-
-/**
- * Created by cmjim on 6/5/2016.
- */
+/*
+Author: Carlos Jimenez
+        * Revised: 6.14.16
+        *
+        * Purpose: Allow the entry of the initials. Will allow the user to cycle through a range of characters (A-Z).
+        * upon selection the range will be submitted.
+        *
+*/
 public class ScoreEntrySystem
 {
     private final int TOTAL_POSITIONS = 3;

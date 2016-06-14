@@ -4,7 +4,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 /**
- * Created by cjimene1 on 5/24/2016.
+ * Author: Carlos Jimenez
+ * Revised: 6.14.16
+ *
+ * Purpose: Container to hold text. Will allow easier manipulation of text. Default render text at center of container.
  */
 public class TextContainer extends BaseContainer
 {

@@ -15,7 +15,10 @@ import com.rfprod.snakere.Game.HighScores;
 
 
 /**
- * Created by cmjim on 4/29/2016.
+ * Author: Carlos Jimenez
+ * Revised: 6.14.16
+ *
+ * Purpose: Will provide entry to game and high scores. accepts user input.
  */
 public class SplashScreen implements Screen
 {

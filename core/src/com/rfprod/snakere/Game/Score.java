@@ -1,7 +1,10 @@
 package com.rfprod.snakere.Game;
 
 /**
- * Created by cmjim on 4/27/2016.
+ * Author: Carlos Jimenez
+ *
+ * Revised 6.14.2016
+ *
  * Will keep track of the score in the game.
  * Score will be based on the number of materials eaten.
  */

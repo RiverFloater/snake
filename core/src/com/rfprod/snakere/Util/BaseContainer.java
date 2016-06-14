@@ -1,7 +1,10 @@
 package com.rfprod.snakere.Util;
 
 /**
- * Created by cjimene1 on 5/24/2016.
+ * Author: Carlos Jimenez
+ * Revised: 6.14.16
+ *
+ * Purpose: Base Container for snake. Will be used to easier place objects on the screen in an confined area.
  */
 public abstract class  BaseContainer {
 

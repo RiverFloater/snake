@@ -17,7 +17,6 @@ public class GameScreen implements Screen {
     private Game game;
     private World world;
     private Renderer renderer;
-    private HighScores highScores;
     private InputManager inputManager;
 
 
@@ -29,7 +28,7 @@ public class GameScreen implements Screen {
         renderer = new Renderer(this.world);
         inputManager = new InputManager(world);
         Gdx.input.setInputProcessor(inputManager);
-        highScores = new HighScores();
+
     }
 
 

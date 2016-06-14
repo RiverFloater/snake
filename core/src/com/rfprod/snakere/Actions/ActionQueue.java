@@ -1,9 +1,15 @@
 package com.rfprod.snakere.Actions;
 
 /**
- * WIll dispense actions for the snake to receive input.
+ *
+ * Author: Carlos Jimenez
+ * Revised: 6.14.16
+ *
+ * Purpose: WIll dispense actions for the snake to receive input.
  *
  */
+
+
 public class ActionQueue
 {
 

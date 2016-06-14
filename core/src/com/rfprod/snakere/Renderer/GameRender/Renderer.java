@@ -2,11 +2,17 @@ package com.rfprod.snakere.Renderer.GameRender;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.rfprod.snakere.Game.World;
+import com.rfprod.snakere.Util.FontManager;
+import com.rfprod.snakere.Util.TextContainer;
 
 /**
- * Created by cjimene1 on 4/7/2016.
+ * Author: Carlos Jimenez
+ * Revised: 6.14.16
+ *
+ * Purpose:Default Renderer for the Game World
  */
 public class Renderer {
 
@@ -21,6 +27,8 @@ public class Renderer {
     private World world;
     private MapRenderer map;
     private ScoreBorder scoreBorder;
+    private BitmapFont font;
+
 
     public Renderer(World world)
     {
@@ -30,13 +38,22 @@ public class Renderer {
 
         batch = new SpriteBatch();
 
+        FontManager fontMan = new FontManager();
+        font = fontMan.getFont(10);
+        fontMan.dispose();
+
+
 
         map = new MapRenderer(this.world,this);
         scoreBorder = new ScoreBorder(0,world.getWorldSize_y(),world.getWorldSize_x(),world.getBlockSize(),batch,world.getScore());
 
 
+
         camera = new OrthographicCamera();
-        camera.setToOrtho(false,world.getWorldSize_x(),world.getWorldSize_y()+scoreBorder.getBorderHeight());
+        camera.setToOrtho(false,world.getWorldSize_x(),(world.getWorldSize_y()+scoreBorder.getBorderHeight()));
+
+
+
 
 
 

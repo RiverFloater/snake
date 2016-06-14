@@ -9,7 +9,12 @@ import com.rfprod.snakere.Game.ScoreEntrySystem;
 import com.rfprod.snakere.Renderer.GameRender.HighScoreRenderer.HighScoreRenderer;
 
 /**
- * Created by cmjim on 5/9/2016.
+ * Author: Carlos Jimenez
+ * Revised: 6.14.16
+ *
+ * Purpose: Will hold highscore logic and rendering details.
+ *
+ *
  */
 public class HighScoreScreen implements Screen
 {

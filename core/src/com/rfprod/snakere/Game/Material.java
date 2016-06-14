@@ -3,8 +3,13 @@ package com.rfprod.snakere.Game;
 import com.badlogic.gdx.math.MathUtils;
 
 /**
- * Created by cmjim on 4/11/2016.
+ * * Author: Carlos Jimenez
+ * Revised: 6.14.16
+ *
+ * Purpose: MAterial for the snake to eat. Will randomly move around a range of inputs defined on object creation.
+ *
  */
+
 public class Material {
 
     private int maxX, maxY;

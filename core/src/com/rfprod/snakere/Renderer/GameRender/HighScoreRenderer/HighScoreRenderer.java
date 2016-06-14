@@ -10,11 +10,13 @@ import com.rfprod.snakere.Screens.HighScoreScreen;
 import com.rfprod.snakere.Util.FontManager;
 import com.rfprod.snakere.Util.TextContainer;
 
+/*
+Author: Carlos Jimenez
+        * Revised: 6.14.16
+        *
+        * Purpose: Will render the stored Highscores to the screen. Will also render the initials input portion if necessary.
+*/
 
-
-/**
- * TODO: CREATE CUSTOM FONTS USING FREETYPE. Will be its own class
- */
 public class HighScoreRenderer
 {
 

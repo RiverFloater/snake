@@ -10,7 +10,10 @@ import com.rfprod.snakere.Game.World;
 
 
 /**
- * Created by cjimene1 on 4/7/2016.
+ * Author: Carlos Jimenez
+ * Revised: 6.14.16
+ *
+ * Purpose: Will render the map for the Game Screen
  */
 public class MapRenderer
 {

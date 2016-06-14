@@ -11,7 +11,7 @@ import com.rfprod.snakere.Actions.MoveWest;
 import com.rfprod.snakere.Game.World;
 
 /**
- * AUthor: Carlos Jimenez
+ * Author: Carlos Jimenez
  * EDITED: 4.9.16
  *
  * Purpose will get input from the user and send it to the world for use.
@@ -21,9 +21,6 @@ import com.rfprod.snakere.Game.World;
  */
 
 
-/*
-    TODO Adjust input manager. WIll use a que to update objects. At the moment objects are updates at any button press out of turn. Causes LockUP.
- */
 public class InputManager implements InputProcessor
 {
 

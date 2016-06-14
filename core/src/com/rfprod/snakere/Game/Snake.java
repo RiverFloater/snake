@@ -5,11 +5,14 @@ import java.util.LinkedList;
 
 
 /**
+ * Author: Carlos Jimenez
+ * Revised: 6.14.16
+ *
  * Player.
  * Snake like avatar. will begin as a single link? (the head) as the snake collects materials he will be come longer.
  * Snake will collide with its self and the wall.
  *
- * Use a linked list of vector2? Can follow through for position. Will never have to remove as object will only grown in length.
+
  *
  */
 public class Snake {

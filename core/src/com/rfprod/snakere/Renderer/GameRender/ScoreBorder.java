@@ -1,7 +1,6 @@
 package com.rfprod.snakere.Renderer.GameRender;
 
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -11,9 +10,12 @@ import com.rfprod.snakere.Game.Score;
 
 
 /**
- * Will handle the Score display at the top of the map.
  *
- * TODO: Implement smaller font type as current font is ugly. Also grab a base border texture for stand in.
+ * Author: Carlos Jimenez
+ * Revised: 6.14.16
+ *
+ * Purpose: Will handle the Score display at the top of the map.
+ *
  *
  *
  */

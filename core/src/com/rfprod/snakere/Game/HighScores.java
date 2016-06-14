@@ -5,12 +5,16 @@ import com.badlogic.gdx.Gdx;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.Reader;
 
 
-/**
- * Created by cmjim on 5/3/2016.
+
+/* Author: Carlos Jimenez
+* Revised: 6.14.16
+*
+* Purpose: Will keep track of high scores in the game. Will load from a text file and save when game is completed.
+*
  */
+
 public class HighScores
 {
 

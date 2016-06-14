@@ -6,7 +6,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 /**
+ Author: Carlos Jimenez
+ * Revised: 6.14.16
  *
+ * Purpose: Allows to return custom fonts using FreeTypeFont.. Also provides a static method to get the displacement of a string's total glyph size
  */
 public class FontManager {
 
